@@ -22,6 +22,12 @@ html{
 	margin-top:25px;
 	background-repeat: no-repeat;
 }
+.five-lines{
+	height: 100%;
+	width:calc(100% - 50px);
+	margin-left:50px;
+	margin-top: -94px;
+}
 .saved-music{
 	cursor: pointer;
 	margin-left:calc(50% - 32px);

@@ -64,16 +64,21 @@ myApp.service("ChatService", function($q, $timeout) {
     return service;
   });
 
-myApp.controller('Controller', ['$scope',"$http","ChatService", function($scope,$http,ChatService) {
+myApp.controller('Controller', ['$scope',"$http","ChatService","$timeout", function($scope,$http,ChatService,$timeout) {
 	$scope.messages = "";
 	$scope.message = "";
 	
 	$scope.addMessage = function() {
+		
 		ChatService.send($scope.message);
 	};
 
    ChatService.receive().then(null, null, function(message) {
 		$scope.messages = message;
+		$timeout(function(){
+			$(".note-tmp").remove();
+			$scope.$apply();
+		});
    });
    
 	function getElements() {
@@ -83,8 +88,17 @@ myApp.controller('Controller', ['$scope',"$http","ChatService", function($scope,
 		}).success(
 			function(response) {
 				$scope.elements=response;
-				$scope.$apply();
+				$timeout(function(){
+					$scope.$apply();
+				});
 			});
+	}
+	
+	function setPosition(message){
+		if(message.length>0){
+			var position=message.length;
+			return positon*32+"px";
+		}
 	}
 	
 	getElements();
@@ -124,14 +138,27 @@ myApp.controller('Controller', ['$scope',"$http","ChatService", function($scope,
     	       	   modal:false,
     	       	   buttons:{
     	       		   "Zapisz":function(){
-    	       			   
+    	       			   var title=$("#title").val();
+    	       			   var data={
+    	       					 "title":title,
+    	       					 "id":"3"
+    	       			   };
+    	       			   $http({
+    	       				   method:"POST",
+    	       				   url:"http://192.168.0.106:8090/saveMusic",
+    	       				   data:data
+    	       			   }).success(function(){
+    	       				   console.log("Sukces");
+    	       			   }).error(function(er){
+    	       				   console.log(er.message);
+    	       			   });
+    	       			   getElements();
     	       		   },
     	       		   "Anuluj":function(){
     	       			   $(this).dialog("close");
     	       		   }
     	       	   }
     		});
-    		
     		dialogTitle.css({
     		    "margin-left": "40px",
     	    	"margin-top": "10px"

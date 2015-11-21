@@ -17,6 +17,9 @@
  <body ng-controller="Controller">
   	<div class='main-workspace'>
   		<div class="treble-clef"></div>
+  		<div class='five-lines' ng-repeat="mess in messages">
+  			<img class="notes-tmp" src="css/img/1note.png">
+  		</div>
   	</div>
   	<img ng-click='openDialog()' class='saved-music' src="css/img/list.png">
  	<img ng-click="onSave()" class='save' src='css/img/save.png'>
