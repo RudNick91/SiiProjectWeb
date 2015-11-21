@@ -74,9 +74,41 @@ myApp.controller('Controller', ['$scope',"$http","ChatService","$timeout", funct
 	};
 
    ChatService.receive().then(null, null, function(message) {
-	   $scope.messages = JSON.parse("'"+message+"'");
-	   console.log($scope.messages);
+	   $scope.messages = JSON.parse(message.message);
    });
+   
+   $scope.notes=function(time){
+	   switch(time){
+	   		case "1": return "css/img/16note.png"; break;
+	   		case "2": return "css/img/8note.png"; break;
+	   		case "4": return "css/img/4note.png"; break;
+	   		case "8": return "css/img/2note.png"; break;
+	   		case "16": return "css/img/1note.png"; break;
+	   		case "takt": return "css/img/pobrane.png"; break;
+	   }
+   };
+   
+   $scope.heightNote=function(line,time){
+	   if(time!=="takt"){
+		   switch(line){
+		   case "1":return "-66px"; break;
+		   case "2":return "-66px"; break;
+		   case "3":return "-61px"; break;
+		   case "4":return "-61px"; break;
+		   case "5":return "-53px"; break;
+		   case "6":return "-53px"; break;
+		   case "7":return "-48px"; break;
+		   case "8":return "-48px"; break;
+		   case "9":return "-42px"; break;
+		   case "10":return "-42px"; break;
+		   case "11":return "-36px"; break;
+		   case "12":return "-36px"; break;
+		   }
+	   }else{
+		   return "-70px";
+	   }
+	  
+   };
    
 	function getElements() {
 		$http({
@@ -108,6 +140,20 @@ myApp.controller('Controller', ['$scope',"$http","ChatService","$timeout", funct
 		}
 	};
 	
+	$scope.readMusic=function(id){
+		var ids=String($("#"+id).attr("id"));
+		console.log(ids);
+		var data={"id":ids};
+		$http({
+			method:"POST",
+			url:"http://192.168.0.106:8090/getRecord",
+			data:data
+		}).success(function(response){
+			$scope.readedData=response;
+		});
+		$("#"+id).dialog("close");
+	};
+	
     $scope.openDialog = function() {
        var dialogs=$("#dialog");
        var select=$("#selectable");
@@ -128,6 +174,7 @@ myApp.controller('Controller', ['$scope',"$http","ChatService","$timeout", funct
     
     $scope.onSave = function(){
     	var dialogTitle=$("#title-element");
+    	var idPictures=String($(".notes-tmp").attr("id"));
     		dialogTitle.dialog({
     			 resizable:true,
     	    	   height:180,
@@ -138,7 +185,7 @@ myApp.controller('Controller', ['$scope',"$http","ChatService","$timeout", funct
     	       			   var title=$("#title").val();
     	       			   var data={
     	       					 "title":title,
-    	       					 "id":"3"
+    	       					 "id":idPictures
     	       			   };
     	       			   $http({
     	       				   method:"POST",

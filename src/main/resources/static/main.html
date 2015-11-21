@@ -15,21 +15,21 @@
 
 </head>
  <body ng-controller="Controller">
-  	<div class='main-workspace'>
-  		<div class="treble-clef"></div>
-  		<div class='five-lines'>
-  			<img ng-repeat="mess in messages" class="notes-tmp" src="css/img/1note.png">
-  		</div>
-  	</div>
+	<div class='five-lines'>
+		<div style="padding-left:70px;">
+			<img id="{{mess.id}}" ng-repeat="mess in messages" class="notes-tmp" ng-src="{{notes(mess.time)}}" style="	margin-bottom:{{heightNote(mess.line,mess.time)}}; position:relative;">
+		</div>	
+	</div>
   	<img ng-click='openDialog()' class='saved-music' src="css/img/list.png">
  	<img ng-click="onSave()" class='save' src='css/img/save.png'>
-  	<div id="dialog" title="Lista utworów">
+ 	<img src="">
+  	<div id="dialog" title="Lista utworow">
   		<ol id="selectable">
-  			<li class='ui-widget-content' ng-repeat="elem in elements | filter:filters">{{elem.title}}</li>
+  			<li class='ui-widget-content' id="{{elem.id}}" ng-mousedown='readMusic(elem.id)' ng-repeat="elem in elements | filter:filters">{{elem.title}}</li>
   		</ol>
   	</div>
-  	<div id="title-element" title="Zapisz tytu³">
-  		<label>Tytu³ utworu:</label>
+  	<div id="title-element" title="Zapisz tytul">
+  		<label>Tytul utworu:</label>
   		<input type="text" id="title"></input>
   	</div>
 </body>
