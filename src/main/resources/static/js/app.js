@@ -74,8 +74,8 @@ myApp.controller('Controller', ['$scope',"$http","ChatService","$timeout", funct
 	};
 
    ChatService.receive().then(null, null, function(message) {
-	   $(".five-lines").remove();
-	   $scope.messages = message;
+	   $scope.messages = JSON.parse("'"+message+"'");
+	   console.log($scope.messages);
    });
    
 	function getElements() {
